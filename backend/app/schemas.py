@@ -1,4 +1,5 @@
 from datetime import datetime
+import re
 from typing import List
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
@@ -7,7 +8,24 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 class UserCreate(BaseModel):
     name: str = Field(min_length=2, max_length=120)
     email: EmailStr
-    password: str  # TEMPORAL: sin validación de longitud para testing
+    password: str
+
+    @field_validator("password")
+    @classmethod
+    def validate_password_strength(cls, value: str) -> str:
+        if len(value) < 8:
+            raise ValueError("La contraseña debe tener al menos 8 caracteres")
+        if len(value.encode("utf-8")) > 72:
+            raise ValueError("La contraseña es demasiado larga")
+        if not re.search(r"[A-Z]", value):
+            raise ValueError("La contraseña debe incluir al menos una letra mayúscula")
+        if not re.search(r"[a-z]", value):
+            raise ValueError("La contraseña debe incluir al menos una letra minúscula")
+        if not re.search(r"\d", value):
+            raise ValueError("La contraseña debe incluir al menos un número")
+        if not re.search(r"[^A-Za-z0-9]", value):
+            raise ValueError("La contraseña debe incluir al menos un carácter especial")
+        return value
 
 
 class UserLogin(BaseModel):

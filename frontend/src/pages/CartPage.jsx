@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function CartPage({ cart, updateCartQuantity, removeFromCart }) {
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const [isGiftWrap, setIsGiftWrap] = useState(false);
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0) + (isGiftWrap ? 5.00 : 0);
 
   return (
     <section className="form-card">
@@ -28,6 +30,18 @@ function CartPage({ cart, updateCartQuantity, removeFromCart }) {
               </button>
             </div>
           ))}
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '16px', padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
+            <input 
+              type="checkbox" 
+              id="gift-wrap" 
+              checked={isGiftWrap} 
+              onChange={(e) => setIsGiftWrap(e.target.checked)} 
+              style={{ width: 'auto' }}
+            />
+            <label htmlFor="gift-wrap" style={{ cursor: 'pointer' }}>Add Gift Wrap (+$5.00)</label>
+          </div>
+
           <h3>Total: ${total.toFixed(2)}</h3>
           <Link className="cta-link" to="/checkout">
             Continue to checkout

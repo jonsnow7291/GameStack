@@ -9,7 +9,7 @@ load_dotenv()
 class Settings:
     database_url: str = os.getenv(
         "DATABASE_URL",
-        "mysql+pymysql://root:@localhost:3306/gamestack",
+        "mysql+pymysql://root:@127.0.0.1:3306/gamestack",
     )
     secret_key: str = os.getenv("SECRET_KEY", "change-this-secret-key")
     algorithm: str = os.getenv("ALGORITHM", "HS256")

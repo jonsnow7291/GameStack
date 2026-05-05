@@ -11,11 +11,15 @@ import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import ProfilePage from './pages/ProfilePage';
 import AdminPage from './pages/AdminPage';
+import Footer from './components/Footer';
 
 const emptyUser = { name: '', role: '', token: '', email: '' };
 
 function App() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const storedCart = localStorage.getItem('gamestack-cart');
+    return storedCart ? JSON.parse(storedCart) : [];
+  });
   const [user, setUser] = useState(() => {
     const stored = localStorage.getItem('gamestack-user');
     return stored ? JSON.parse(stored) : emptyUser;
@@ -39,6 +43,10 @@ function App() {
   useEffect(() => {
     loadInventory();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('gamestack-cart', JSON.stringify(cart));
+  }, [cart]);
 
   useEffect(() => {
     if (user?.token) {
@@ -148,6 +156,7 @@ function App() {
           />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 }

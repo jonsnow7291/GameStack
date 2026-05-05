@@ -36,13 +36,30 @@ function RegisterPage({ setUser, setAlert }) {
   }
 
   return (
-    <form className="form-card" onSubmit={handleSubmit}>
-      <h2>Create account</h2>
-      <input name="name" placeholder="Name" onChange={handleChange} value={form.name} />
-      <input name="email" placeholder="Email" onChange={handleChange} value={form.email} />
-      <input name="password" placeholder="Password" type="password" onChange={handleChange} value={form.password} />
-      <button type="submit">Register</button>
-    </form>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '40px 0' }}>
+      <form className="form-card" onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '450px', borderTop: '4px solid var(--accent)' }}>
+        <h2 style={{ color: '#fff', textAlign: 'center', marginBottom: '8px', textShadow: '0 0 10px var(--accent-glow)' }}>New Player Registration</h2>
+        <p style={{ textAlign: 'center', color: 'var(--muted)', marginBottom: '24px', fontSize: '0.9rem' }}>Create your GameStack profile</p>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <label style={{ fontSize: '0.85rem', color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Username</label>
+          <input name="name" placeholder="CyberNinja99" onChange={handleChange} value={form.name} style={{ background: 'rgba(0,0,0,0.6)' }} />
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '4px' }}>
+          <label style={{ fontSize: '0.85rem', color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Email Address</label>
+          <input name="email" placeholder="player@gamestack.com" onChange={handleChange} value={form.email} style={{ background: 'rgba(0,0,0,0.6)' }} />
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '4px' }}>
+          <label style={{ fontSize: '0.85rem', color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Secure Password</label>
+          <input name="password" placeholder="••••••••" type="password" onChange={handleChange} value={form.password} style={{ background: 'rgba(0,0,0,0.6)' }} />
+          <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Must include uppercase, lowercase, and a number (Min 8 chars).</span>
+        </div>
+
+        <button type="submit" style={{ marginTop: '20px', width: '100%', padding: '14px' }}>Create Profile</button>
+      </form>
+    </div>
   );
 }
 

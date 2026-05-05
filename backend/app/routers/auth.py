@@ -1,5 +1,3 @@
-import re
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -10,18 +8,10 @@ from app.security import create_access_token, hash_password, verify_password
 
 
 router = APIRouter(prefix="/auth", tags=["auth"])
-PASSWORD_REGEX = re.compile(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$")
 
 
 @router.post("/register", response_model=TokenResponse, status_code=status.HTTP_201_CREATED)
 def register(payload: UserCreate, db: Session = Depends(get_db)):
-    # TEMPORAL: validación de contraseña desactivada para testing
-    # if not PASSWORD_REGEX.match(payload.password):
-    #     raise HTTPException(
-    #         status_code=status.HTTP_400_BAD_REQUEST,
-    #         detail="Password must contain uppercase, lowercase and number",
-    #     )
-
     existing_user = db.query(User).filter(User.email == payload.email).first()
     if existing_user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already exists")
